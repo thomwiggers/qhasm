@@ -2,7 +2,7 @@
 QDIR=`dirname $0`
 sed 's/#.*//' \
 | sed 's/:/#/g' \
-| ( $QDIR/qhasm-arm-desc; cat ) \
+| ( cat $QDIR/qhasm-arm-desc-static; cat ) \
 | $QDIR/qhasm-ops \
 | $QDIR/qhasm-regs \
 | grep -v '^op:livefloat80:' \

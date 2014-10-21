@@ -25,6 +25,8 @@ do
   rm -f $i.test.o
 done
 
+./qhasm-arm-desc > ./qhasm-arm-desc-static
+
 ./compile -c critbit0_allprefixed.c
 ./compile -c critbit0_clear.c
 ./compile -c critbit0_contains.c
