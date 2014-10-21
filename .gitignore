@@ -1,2 +1,12 @@
 *.o
 qhasm-arm-desc-static
+critbit0-test1
+limitmalloc-test1
+qhasm-ops
+qhasm-regs
+str0-test1
+str0-test2
+str0-test3
+str0-test4
+str0-test5
+
