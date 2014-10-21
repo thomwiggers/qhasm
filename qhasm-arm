@@ -1,0 +1,43 @@
+#!/bin/sh
+QDIR=`dirname $0`
+sed 's/#.*//' \
+| sed 's/:/#/g' \
+| ( $QDIR/qhasm-arm-desc; cat ) \
+| $QDIR/qhasm-ops \
+| $QDIR/qhasm-regs \
+| grep -v '^op:livefloat80:' \
+| $QDIR/qhasm-as \
+| sed 's/^lea \([a-z0-9]*\),\[\([a-z0-9]*\),\#\([0-9]*\)\]/add \1,\2,\#\3/' \
+| sed 's/q0%bot/d0/g' \
+| sed 's/q1%bot/d2/g' \
+| sed 's/q2%bot/d4/g' \
+| sed 's/q3%bot/d6/g' \
+| sed 's/q4%bot/d8/g' \
+| sed 's/q5%bot/d10/g' \
+| sed 's/q6%bot/d12/g' \
+| sed 's/q7%bot/d14/g' \
+| sed 's/q8%bot/d16/g' \
+| sed 's/q9%bot/d18/g' \
+| sed 's/q10%bot/d20/g' \
+| sed 's/q11%bot/d22/g' \
+| sed 's/q12%bot/d24/g' \
+| sed 's/q13%bot/d26/g' \
+| sed 's/q14%bot/d28/g' \
+| sed 's/q15%bot/d30/g' \
+| sed 's/q0%top/d1/g' \
+| sed 's/q1%top/d3/g' \
+| sed 's/q2%top/d5/g' \
+| sed 's/q3%top/d7/g' \
+| sed 's/q4%top/d9/g' \
+| sed 's/q5%top/d11/g' \
+| sed 's/q6%top/d13/g' \
+| sed 's/q7%top/d15/g' \
+| sed 's/q8%top/d17/g' \
+| sed 's/q9%top/d19/g' \
+| sed 's/q10%top/d21/g' \
+| sed 's/q11%top/d23/g' \
+| sed 's/q12%top/d25/g' \
+| sed 's/q13%top/d27/g' \
+| sed 's/q14%top/d29/g' \
+| sed 's/q15%top/d31/g' \
+| tr '$' '#'

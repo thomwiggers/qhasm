@@ -1,0 +1,928 @@
+#!/bin/bash
+
+stackalign=''
+[ x"$1" = xstackalign ] && stackalign=yes
+
+# r13 is sp
+# r15 is pc
+echo ':name:int32:r0:r1:r2:r3:r4:r5:r6:r7:r8:r9:r10:r11:r12:r14:'
+echo 'new r:>r=int32:'
+echo 'int32 r:var/r=int32:'
+
+echo ':name:reg128:q0:q1:q2:q3:q4:q5:q6:q7:q8:q9:q10:q11:q12:q13:q14:q15:'
+echo 'new r:>r=reg128:'
+echo 'free r:<r=reg128:'
+echo 'int128 r:var/r=reg128:'
+echo 'reg128 r:var/r=reg128:'
+echo 'fp128 r:var/r=reg128:'
+
+(
+  echo 'startcode'
+  echo 'asm/.fpu neon'
+  echo 'asm/.text'
+) | tr '\012' ':'; echo ':' | tr ':' '\012'
+
+(
+  echo 'enter f'
+  echo 'enter/f'
+  echo 'asm/.align 4'
+  echo 'asm/.global _#f'
+  echo 'asm/.global #f'
+  echo 'asm/.type _#f STT_FUNC'
+  echo 'asm/.type #f STT_FUNC'
+  echo 'asm/_#f!colon'
+  echo 'asm/#f!colon'
+  echo 'asm/sub sp,sp,$!frame'
+  echo '>input_0=int32#1'
+  echo '>input_1=int32#2'
+  echo '>input_2=int32#3'
+  echo '>input_3=int32#4'
+  echo '>input_4=stack32#arg1'
+  echo '>input_5=stack32#arg2'
+  echo '>input_6=stack32#arg3'
+  echo '>input_7=stack32#arg4'
+  echo '>caller_r4=int32#5'
+  echo '>caller_r5=int32#6'
+  echo '>caller_r6=int32#7'
+  echo '>caller_r7=int32#8'
+  echo '>caller_r8=int32#9'
+  echo '>caller_r9=int32#10'
+  echo '>caller_r10=int32#11'
+  echo '>caller_r11=int32#12'
+  echo '>caller_r14=int32#14'
+  echo '>caller_q4=reg128#5'
+  echo '>caller_q5=reg128#6'
+  echo '>caller_q6=reg128#7'
+  echo '>caller_q7=reg128#8'
+) | tr '\012' ':'; echo ':' | tr ':' '\012'
+
+(
+  echo 'enternostack f'
+  echo 'enter/f'
+  echo 'asm/.align 4'
+  echo 'asm/.global _#f'
+  echo 'asm/.global #f'
+  echo 'asm/.type _#f STT_FUNC'
+  echo 'asm/.type #f STT_FUNC'
+  echo 'asm/_#f!colon'
+  echo 'asm/#f!colon'
+  echo '>input_0=int32#1'
+  echo '>input_1=int32#2'
+  echo '>input_2=int32#3'
+  echo '>input_3=int32#4'
+  echo '>input_4=stack32#arg1'
+  echo '>input_5=stack32#arg2'
+  echo '>input_6=stack32#arg3'
+  echo '>input_7=stack32#arg4'
+  echo '>caller_r4=int32#5'
+  echo '>caller_r5=int32#6'
+  echo '>caller_r6=int32#7'
+  echo '>caller_r7=int32#8'
+  echo '>caller_r8=int32#9'
+  echo '>caller_r9=int32#10'
+  echo '>caller_r10=int32#11'
+  echo '>caller_r11=int32#12'
+  echo '>caller_r14=int32#14'
+  echo '>caller_q4=reg128#5'
+  echo '>caller_q5=reg128#6'
+  echo '>caller_q6=reg128#7'
+  echo '>caller_q7=reg128#8'
+) | tr '\012' ':'; echo ':' | tr ':' '\012'
+
+(
+  echo 'qpushenter f'
+  echo 'enter/f'
+  echo 'asm/.align 4'
+  echo 'asm/.global _#f'
+  echo 'asm/.global #f'
+  echo 'asm/.type _#f STT_FUNC'
+  echo 'asm/.type #f STT_FUNC'
+  echo 'asm/_#f!colon'
+  echo 'asm/#f!colon'
+  echo 'asm/vpush {q4,q5,q6,q7}'
+  [ $stackalign ] && echo 'asm/mov r12,sp'
+  echo 'asm/sub sp,sp,$!frame'
+  [ $stackalign ] && echo 'asm/and sp,sp,$0xffffffe0'
+  echo '>input_0=int32#1'
+  echo '>input_1=int32#2'
+  echo '>input_2=int32#3'
+  echo '>input_3=int32#4'
+  echo '>input_4=stack32#arg17'
+  echo '>input_5=stack32#arg18'
+  echo '>input_6=stack32#arg19'
+  echo '>input_7=stack32#arg20'
+  echo '>caller_r4=int32#5'
+  echo '>caller_r5=int32#6'
+  echo '>caller_r6=int32#7'
+  echo '>caller_r7=int32#8'
+  echo '>caller_r8=int32#9'
+  echo '>caller_r9=int32#10'
+  echo '>caller_r10=int32#11'
+  echo '>caller_r11=int32#12'
+  [ $stackalign ] && echo '>caller_r12=int32#13'
+  echo '>caller_r14=int32#14'
+) | tr '\012' ':'; echo ':' | tr ':' '\012'
+
+
+(
+  echo 'return'
+  echo 'nofallthrough'
+  echo 'asm/add sp,sp,$!frame'
+  echo 'asm/bx lr'
+  echo '<caller_r4=int32#5'
+  echo '<caller_r5=int32#6'
+  echo '<caller_r6=int32#7'
+  echo '<caller_r7=int32#8'
+  echo '<caller_r8=int32#9'
+  echo '<caller_r9=int32#10'
+  echo '<caller_r10=int32#11'
+  echo '<caller_r11=int32#12'
+  echo '<caller_r14=int32#14'
+  echo "<caller_q4=reg128#5"
+  echo "<caller_q5=reg128#6"
+  echo "<caller_q6=reg128#7"
+  echo "<caller_q7=reg128#8"
+  echo 'leave'
+) | tr '\012' ':'; echo ':' | tr ':' '\012'
+
+(
+  echo 'return r'
+  echo 'nofallthrough'
+  echo 'asm/add sp,sp,$!frame'
+  echo 'asm/bx lr'
+  echo '<r=int32#1'
+  echo '<caller_r4=int32#5'
+  echo '<caller_r5=int32#6'
+  echo '<caller_r6=int32#7'
+  echo '<caller_r7=int32#8'
+  echo '<caller_r8=int32#9'
+  echo '<caller_r9=int32#10'
+  echo '<caller_r10=int32#11'
+  echo '<caller_r11=int32#12'
+  echo '<caller_r14=int32#14'
+  echo "<caller_q4=reg128#5"
+  echo "<caller_q5=reg128#6"
+  echo "<caller_q6=reg128#7"
+  echo "<caller_q7=reg128#8"
+  echo 'leave'
+) | tr '\012' ':'; echo ':' | tr ':' '\012'
+
+(
+  echo 'returnnostack'
+  echo 'nofallthrough'
+  echo 'asm/bx lr'
+  echo '<caller_r4=int32#5'
+  echo '<caller_r5=int32#6'
+  echo '<caller_r6=int32#7'
+  echo '<caller_r7=int32#8'
+  echo '<caller_r8=int32#9'
+  echo '<caller_r9=int32#10'
+  echo '<caller_r10=int32#11'
+  echo '<caller_r11=int32#12'
+  echo '<caller_r14=int32#14'
+  echo "<caller_q4=reg128#5"
+  echo "<caller_q5=reg128#6"
+  echo "<caller_q6=reg128#7"
+  echo "<caller_q7=reg128#8"
+  echo 'leave'
+) | tr '\012' ':'; echo ':' | tr ':' '\012'
+
+(
+  echo 'returnnostack r'
+  echo 'nofallthrough'
+  echo 'asm/bx lr'
+  echo '<r=int32#1'
+  echo '<caller_r4=int32#5'
+  echo '<caller_r5=int32#6'
+  echo '<caller_r6=int32#7'
+  echo '<caller_r7=int32#8'
+  echo '<caller_r8=int32#9'
+  echo '<caller_r9=int32#10'
+  echo '<caller_r10=int32#11'
+  echo '<caller_r11=int32#12'
+  echo '<caller_r14=int32#14'
+  echo "<caller_q4=reg128#5"
+  echo "<caller_q5=reg128#6"
+  echo "<caller_q6=reg128#7"
+  echo "<caller_q7=reg128#8"
+  echo 'leave'
+) | tr '\012' ':'; echo ':' | tr ':' '\012'
+
+(
+  echo 'qpopreturn'
+  echo 'nofallthrough'
+  [ $stackalign ] && echo 'asm/mov sp,r12'
+  [ $stackalign ] || echo 'asm/add sp,sp,$!frame'
+  echo 'asm/vpop {q4,q5,q6,q7}'
+  echo 'asm/bx lr'
+  echo '<caller_r4=int32#5'
+  echo '<caller_r5=int32#6'
+  echo '<caller_r6=int32#7'
+  echo '<caller_r7=int32#8'
+  echo '<caller_r8=int32#9'
+  echo '<caller_r9=int32#10'
+  echo '<caller_r10=int32#11'
+  echo '<caller_r11=int32#12'
+  [ $stackalign ] && echo '<caller_r12=int32#13'
+  echo '<caller_r14=int32#14'
+  echo 'leave'
+) | tr '\012' ':'; echo ':' | tr ':' '\012'
+
+
+(
+  echo 'qpopreturn r'
+  echo 'nofallthrough'
+  [ $stackalign ] && echo 'asm/mov sp,r12'
+  [ $stackalign ] || echo 'asm/add sp,sp,$!frame'
+  echo 'asm/vpop {q4,q5,q6,q7}'
+  echo 'asm/bx lr'
+  echo '<r=int32#1'
+  echo '<caller_r4=int32#5'
+  echo '<caller_r5=int32#6'
+  echo '<caller_r6=int32#7'
+  echo '<caller_r7=int32#8'
+  echo '<caller_r8=int32#9'
+  echo '<caller_r9=int32#10'
+  echo '<caller_r10=int32#11'
+  echo '<caller_r11=int32#12'
+  [ $stackalign ] && echo '<caller_r12=int32#13'
+  echo '<caller_r14=int32#14'
+  echo 'leave'
+) | tr '\012' ':'; echo ':' | tr ':' '\012'
+
+echo 'constant s#:#s:asm/.p2align 4:asm/#s!colon:'
+echo 'const32 n:#n:asm/.word #n:'
+echo 'const128 n m o p:#n:#m:#o:#p:asm/.word #n,#m,#o,#p:'
+
+echo ':stackalign:32:'
+echo ':stackname:[sp,#:]:'
+[ $stackalign ] && echo ':stackargname:[r12,#:]:'
+[ $stackalign ] && echo ':rightbytes:0:'
+# XXX have to upgrade stackargusescaller to handle r12
+[ $stackalign ] || echo ':stackargname:[sp,#:]:'
+[ $stackalign ] || echo ':rightbytes:!frame+0:'
+echo ':stackbytes:stack64:8:'
+echo 'stack64 r:var/r=stack64:'
+echo 'new r:>r=stack64:'
+echo ':stackbytes:stack32:4:'
+echo 'stack32 r:var/r=stack32:'
+echo 'new r:>r=stack32:'
+echo ':stackbytes:stack128:16:'
+echo 'stack128 r:var/r=stack128:'
+echo 'new r:>r=stack128:'
+echo ':stackbytes:stack256:32:'
+echo 'stack256 r:var/r=stack256:'
+echo 'new r:>r=stack256:'
+echo ':stackbytes:stack512:64:'
+echo 'stack512 r:var/r=stack512:'
+echo 'new r:>r=stack512:'
+echo ':stackbytes:stack1024:128:'
+echo 'stack1024 r:var/r=stack1024:'
+echo 'new r:>r=stack1024:'
+echo ':stackbytes:stack1600:200:'
+echo 'stack1600 r:var/r=stack1600:'
+echo 'new r:>r=stack1600:'
+echo ':stackbytes:stack3072:384:'
+echo 'stack3072 r:var/r=stack3072:'
+echo 'new r:>r=stack3072:'
+echo ':stackpriority:stack64:'
+
+echo ':flag:=:'
+echo ':flag:signed<:'
+echo ':flag:signed>:'
+echo ':flag:unsigned<:'
+echo ':flag:unsigned>:'
+echo ':flag:negative:'
+echo ':flag:overflow:'
+echo ':flag:carry:'
+
+echo 'cycles(r):>r=int32:asm/mrc p15, 0, >r, c9, c13, 0:'
+echo 'f#:#f:label/f:asm/._#f!colon:'
+echo 'goto f:#f:nofallthrough:jump/f:asm/b ._#f:'
+echo 'goto f if =:#f:jump/f:<?=:asm/beq ._#f:'
+echo 'goto f if !=:#f:jump/f:<?=:asm/bne ._#f:'
+echo 'goto f if unsigned<:#f:jump/f:<?unsigned<:asm/blo ._#f:'
+echo 'goto f if !unsigned<:#f:jump/f:<?unsigned<:asm/bhs ._#f:'
+echo 'goto f if unsigned>:#f:jump/f:<?unsigned>:asm/bhi ._#f:'
+echo 'goto f if !unsigned>:#f:jump/f:<?unsigned>:asm/bls ._#f:'
+echo 'goto f if signed<:#f:jump/f:<?signed<:asm/blt ._#f:'
+echo 'goto f if !signed<:#f:jump/f:<?signed<:asm/bge ._#f:'
+echo 'goto f if signed>:#f:jump/f:<?signed>:asm/bgt ._#f:'
+echo 'goto f if !signed>:#f:jump/f:<?signed>:asm/ble ._#f:'
+echo 'goto f if negative:#f:jump/f:<?negative:asm/bmi ._#f:'
+echo 'goto f if !negative:#f:jump/f:<?negative:asm/bpl ._#f:'
+echo 'goto f if overflow:#f:jump/f:<?overflow:asm/bvs ._#f:'
+echo 'goto f if !overflow:#f:jump/f:<?overflow:asm/bvc ._#f:'
+
+echo 'nop:asm/nop:'
+echo 'r = n:>r=int32:#n:asm/ldr >r,=#n:'
+echo 'r = n if =:inplace>r=int32:<r=int32:#n:asm/ldreq <r,=#n:'
+echo 'r = -n:>r=int32:#n:asm/ldr >r,=-#n:'
+
+echo 'r = s:>r=int32:<s=int32:asm/mov >r,<s:'
+echo 'r = -s:>r=int32:<s=int32:asm/neg >r,<s:'
+echo 'r = s[3]s[2]s[1]s[0]:>r=int32:<s=int32:asm/rev >r,<s:'
+echo 'r = (s >>> n):>r=int32:<s=int32:#n:asm/mov >r,<s,ROR $#n:' 
+echo 'r = (s >>> u):>r=int32:<s=int32:<u=int32:asm/mov >r,<s,ROR <u:' 
+echo 'r = (s << n):>r=int32:<s=int32:#n:asm/mov >r,<s,LSL $#n:' 
+echo 'r = (s << u):>r=int32:<s=int32:<u=int32:asm/mov >r,<s,LSL <u:' 
+echo 'r = (s signed>> n):>r=int32:<s=int32:#n:asm/mov >r,<s,ASR $#n:' 
+echo 'r = (s signed>> u):>r=int32:<s=int32:<u=int32:asm/mov >r,<s,ASR <u:' 
+echo 'r = (s unsigned>> n):>r=int32:<s=int32:#n:asm/mov >r,<s,LSR $#n:' 
+echo 'r = (s unsigned>> u):>r=int32:<s=int32:<u=int32:asm/mov >r,<s,LSR <u:' 
+echo 'r >>>= n:>r=int32:<r=int32:#n:asm/mov >r,<r,ROR $#n:' 
+echo 'r >>>= u:>r=int32:<r=int32:<u=int32:asm/mov >r,<r,ROR <u:' 
+echo 'r <<= n:>r=int32:<r=int32:#n:asm/mov >r,<r,LSL $#n:' 
+echo 'r <<= u:>r=int32:<r=int32:<u=int32:asm/mov >r,<r,LSL <u:' 
+echo 'r signed>>= n:>r=int32:<r=int32:#n:asm/mov >r,<r,ASR $#n:' 
+echo 'r signed>>= u:>r=int32:<r=int32:<u=int32:asm/mov >r,<r,ASR <u:' 
+echo 'r unsigned>>= n:>r=int32:<r=int32:#n:asm/mov >r,<r,LSR $#n:' 
+echo 'r unsigned>>= u:>r=int32:<r=int32:<u=int32:asm/mov >r,<r,LSR <u:' 
+
+echo 'r = ~s:>r=int32:<s=int32:asm/mvn >r,<s:' 
+echo 'r = ~(s >>> n):>r=int32:<s=int32:#n:asm/mvn >r,<s,ROR $#n:' 
+echo 'r = ~(s >>> u):>r=int32:<s=int32:<u=int32:asm/mvn >r,<s,ROR <u:' 
+echo 'r = ~(s << n):>r=int32:<s=int32:#n:asm/mvn >r,<s,LSL $#n:' 
+echo 'r = ~(s << u):>r=int32:<s=int32:<u=int32:asm/mvn >r,<s,LSL <u:' 
+echo 'r = ~(s signed>> n):>r=int32:<s=int32:#n:asm/mvn >r,<s,ASR $#n:' 
+echo 'r = ~(s signed>> u):>r=int32:<s=int32:<u=int32:asm/mvn >r,<s,ASR <u:' 
+echo 'r = ~(s unsigned>> n):>r=int32:<s=int32:#n:asm/mvn >r,<s,LSR $#n:' 
+echo 'r = ~(s unsigned>> u):>r=int32:<s=int32:<u=int32:asm/mvn >r,<s,LSR <u:' 
+
+echo 'bigendian:asm/setend be:'
+echo 'littleendian:asm/setend le:'
+
+for OP in '+,add' '-,sub' '^,eor' '&,and' '|,orr'; do
+  QOP=`echo $OP | sed "s/,.*//"`
+  AOP=`echo $OP | sed "s/.*,//"`
+  echo "r $QOP= t:>r=int32:<r=int32:<t=int32:asm/$AOP >r,<r,<t:"
+  echo "r $QOP= n:>r=int32:<r=int32:#n:asm/$AOP >r,<r,\$#n:"
+  echo "r $QOP= (t >>> n):>r=int32:<r=int32:<t=int32:#n:asm/$AOP >r,<r,<t,ROR \$#n:"
+  echo "r $QOP= (t >>> u):>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP >r,<r,<t,ROR <u:"
+  echo "r $QOP= (t << n):>r=int32:<r=int32:<t=int32:#n:asm/$AOP >r,<r,<t,LSL \$#n:"
+  echo "r $QOP= (t << u):>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP >r,<r,<t,LSL <u:"
+  echo "r $QOP= (t signed>> n):>r=int32:<r=int32:<t=int32:#n:asm/$AOP >r,<r,<t,ASR \$#n:"
+  echo "r $QOP= (t signed>> u):>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP >r,<r,<t,ASR <u:"
+  echo "r $QOP= (t unsigned>> n):>r=int32:<r=int32:<t=int32:#n:asm/$AOP >r,<r,<t,LSR \$#n:"
+  echo "r $QOP= (t unsigned>> u):>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP >r,<r,<t,LSR <u:"
+  echo "r = s $QOP t:>r=int32:<s=int32:<t=int32:asm/$AOP >r,<s,<t:"
+  echo "r = s $QOP n:>r=int32:<s=int32:#n:asm/$AOP >r,<s,\$#n:"
+  echo "r = s $QOP (t >>> n):>r=int32:<s=int32:<t=int32:#n:asm/$AOP >r,<s,<t,ROR \$#n:"
+  echo "r = s $QOP (t >>> u):>r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP >r,<s,<t,ROR <u:"
+  echo "r = s $QOP (t << n):>r=int32:<s=int32:<t=int32:#n:asm/$AOP >r,<s,<t,LSL \$#n:"
+  echo "r = s $QOP (t << u):>r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP >r,<s,<t,LSL <u:"
+  echo "r = s $QOP (t signed>> n):>r=int32:<s=int32:<t=int32:#n:asm/$AOP >r,<s,<t,ASR \$#n:"
+  echo "r = s $QOP (t signed>> u):>r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP >r,<s,<t,ASR <u:"
+  echo "r = s $QOP (t unsigned>> n):>r=int32:<s=int32:<t=int32:#n:asm/$AOP >r,<s,<t,LSR \$#n:"
+  echo "r = s $QOP (t unsigned>> u):>r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP >r,<s,<t,LSR <u:"
+done
+
+for OP in '+,add' '-,sub' '^,eor' '&,and' '|,orr'; do
+  QOP=`echo $OP | sed "s/,.*//"`
+  AOP=`echo $OP | sed "s/.*,//"`
+  for COND in '=,eq' 'signed<,lt';do
+    QCOND=`echo $COND | sed "s/,.*//"`
+    ACOND=`echo $COND | sed "s/.*,//"`
+    echo "r $QOP= t if $QCOND:inplace>r=int32:<r=int32:<t=int32:asm/$AOP$ACOND <r,<r,<t:"
+    echo "r $QOP= n if $QCOND:inplace>r=int32:<r=int32:#n:asm/$AOP$ACOND <r,<r,\$#n:"
+    echo "r $QOP= (t >>> n) if $QCOND:inplace>r=int32:<r=int32:<t=int32:#n:asm/$AOP$ACOND <r,<r,<t,ROR \$#n:"
+    echo "r $QOP= (t >>> u) if $QCOND:inplace>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP$ACOND <r,<r,<t,ROR <u:"
+    echo "r $QOP= (t << n) if $QCOND:inplace>r=int32:<r=int32:<t=int32:#n:asm/$AOP$ACOND <r,<r,<t,LSL \$#n:"
+    echo "r $QOP= (t << u) if $QCOND:inplace>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP$ACOND <r,<r,<t,LSL <u:"
+    echo "r $QOP= (t signed>> n) if $QCOND:inplace>r=int32:<r=int32:<t=int32:#n:asm/$AOP$ACOND <r,<r,<t,ASR \$#n:"
+    echo "r $QOP= (t signed>> u) if $QCOND:inplace>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP$ACOND <r,<r,<t,ASR <u:"
+    echo "r $QOP= (t unsigned>> n) if $QCOND:inplace>r=int32:<r=int32:<t=int32:#n:asm/$AOP$ACOND <r,<r,<t,LSR \$#n:"
+    echo "r $QOP= (t unsigned>> u) if $QCOND:inplace>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP$ACOND <r,<r,<t,LSR <u:"
+    echo "r = s $QOP t if $QCOND:inplace>r=int32:<r=int32:<s=int32:<t=int32:asm/$AOP$ACOND <r,<s,<t:"
+    echo "r = s $QOP n if $QCOND:inplace>r=int32:<r=int32:<s=int32:#n:asm/$AOP$ACOND <r,<s,\$#n:"
+    echo "r = s $QOP (t >>> n) if $QCOND:inplace>r=int32:<r=int32:<s=int32:<t=int32:#n:asm/$AOP$ACOND >r,<s,<t,ROR \$#n:"
+    echo "r = s $QOP (t >>> u) if $QCOND:inplace>r=int32:<r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP$ACOND >r,<s,<t,ROR <u:"
+    echo "r = s $QOP (t << n) if $QCOND:inplace>r=int32:<r=int32:<s=int32:<t=int32:#n:asm/$AOP$ACOND <r,<s,<t,LSL \$#n:"
+    echo "r = s $QOP (t << u) if $QCOND:inplace>r=int32:<r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP$ACOND <r,<s,<t,LSL <u:"
+    echo "r = s $QOP (t signed>> n) if $QCOND:inplace>r=int32:<r=int32:<s=int32:<t=int32:#n:asm/$AOP$ACOND <r,<s,<t,ASR \$#n:"
+    echo "r = s $QOP (t signed>> u) if $QCOND:inplace>r=int32:<r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP$ACOND <r,<s,<t,ASR <u:"
+    echo "r = s $QOP (t unsigned>> n) if $QCOND:inplace>r=int32:<r=int32:<s=int32:<t=int32:#n:asm/$AOP$ACOND <r,<s,<t,LSR \$#n:"
+    echo "r = s $QOP (t unsigned>> u) if $QCOND:inplace>r=int32:<r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP$ACOND <r,<s,<t,LSR <u:"
+  done
+done
+
+echo "r = s & ~t:>r=int32:<s=int32:<t=int32:asm/bic >r,<s,<t:"
+echo "r = s & ~(t >>> n):>r=int32:<s=int32:<t=int32:#n:asm/bic >r,<s,<t,ROR \$#n:"
+echo "r = s & ~(t >>> u):>r=int32:<s=int32:<t=int32:<u=int32:asm/bic >r,<s,<t,ROR <u:"
+echo "r = s & ~(t << n):>r=int32:<s=int32:<t=int32:#n:asm/bic >r,<s,<t,LSL \$#n:"
+echo "r = s & ~(t << u):>r=int32:<s=int32:<t=int32:<u=int32:asm/bic >r,<s,<t,LSL <u:"
+echo "r = s & ~(t signed>> n):>r=int32:<s=int32:<t=int32:#n:asm/bic >r,<s,<t,ASR \$#n:"
+echo "r = s & ~(t signed>> u):>r=int32:<s=int32:<t=int32:<u=int32:asm/bic >r,<s,<t,ASR <u:"
+echo "r = s & ~(t unsigned>> n):>r=int32:<s=int32:<t=int32:#n:asm/bic >r,<s,<t,LSR \$#n:"
+echo "r = s & ~(t unsigned>> u):>r=int32:<s=int32:<t=int32:<u=int32:asm/bic >r,<s,<t,LSR <u:"
+
+echo "XXX"
+for OP in '+,adds' '-,subs'; do
+  QOP=`echo $OP | sed "s/,.*//"`
+  AOP=`echo $OP | sed "s/.*,//"`
+  FLAGS=">?unsigned>:>?unsigned<:>?signed>:>?signed<:>?negative:>?overflow:>?carry:"
+  echo "r $QOP= t:>r=int32:<r=int32:<t=int32:asm/$AOP >r,<r,<t:$FLAGS"
+  echo "r $QOP= n:>r=int32:<r=int32:#n:asm/$AOP >r,<r,\$#n:$FLAGS"
+  echo "r $QOP= (t >>> n):>r=int32:<r=int32:<t=int32:#n:asm/$AOP >r,<r,<t,ROR \$#n:$FLAGS"
+  echo "r $QOP= (t >>> u):>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP >r,<r,<t,ROR <u:$FLAGS"
+  echo "r $QOP= (t << n):>r=int32:<r=int32:<t=int32:#n:asm/$AOP >r,<r,<t,LSL \$#n:$FLAGS"
+  echo "r $QOP= (t << u):>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP >r,<r,<t,LSL <u:$FLAGS"
+  echo "r $QOP= (t signed>> n):>r=int32:<r=int32:<t=int32:#n:asm/$AOP >r,<r,<t,ASR \$#n:$FLAGS"
+  echo "r $QOP= (t signed>> u):>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP >r,<r,<t,ASR <u:$FLAGS"
+  echo "r $QOP= (t unsigned>> n):>r=int32:<r=int32:<t=int32:#n:asm/$AOP >r,<r,<t,LSR \$#n:$FLAGS"
+  echo "r $QOP= (t unsigned>> u):>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP >r,<r,<t,LSR <u:$FLAGS"
+  echo "r = s $QOP t:>r=int32:<s=int32:<t=int32:asm/$AOP >r,<s,<t:$FLAGS"
+  echo "r = s $QOP n:>r=int32:<s=int32:#n:asm/$AOP >r,<s,\$#n:$FLAGS"
+  echo "r = s $QOP (t >>> n):>r=int32:<s=int32:<t=int32:#n:asm/$AOP >r,<s,<t,ROR \$#n:$FLAGS"
+  echo "r = s $QOP (t >>> u):>r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP >r,<s,<t,ROR <u:$FLAGS"
+  echo "r = s $QOP (t << n):>r=int32:<s=int32:<t=int32:#n:asm/$AOP >r,<s,<t,LSL \$#n:$FLAGS"
+  echo "r = s $QOP (t << u):>r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP >r,<s,<t,LSL <u:$FLAGS"
+  echo "r = s $QOP (t signed>> n):>r=int32:<s=int32:<t=int32:#n:asm/$AOP >r,<s,<t,ASR \$#n:$FLAGS"
+  echo "r = s $QOP (t signed>> u):>r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP >r,<s,<t,ASR <u:$FLAGS"
+  echo "r = s $QOP (t unsigned>> n):>r=int32:<s=int32:<t=int32:#n:asm/$AOP >r,<s,<t,LSR \$#n:$FLAGS"
+  echo "r = s $QOP (t unsigned>> u):>r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP >r,<s,<t,LSR <u:$FLAGS"
+done
+
+
+for OP in '+,adc' '-,sbc'; do
+  QOP=`echo $OP | sed "s/,.*//"`
+  for S in "" "s";do
+    if [ $S ];then 
+      FLAGS=">?unsigned>:>?unsigned<:>?signed>:>?signed<:>?negative:>?overflow:>?carry:<?carry:"
+    else 
+      FLAGS="<?carry:"
+    fi
+    AOP=`echo $OP | sed "s/.*,//"`$S
+    echo "r $QOP= t $QOP carry:>r=int32:<r=int32:<t=int32:asm/$AOP >r,<r,<t:$FLAGS"
+    echo "r $QOP= n $QOP carry:>r=int32:<r=int32:#n:asm/$AOP >r,<r,\$#n:$FLAGS"
+    echo "r $QOP= (t >>> n) $QOP carry:>r=int32:<r=int32:<t=int32:#n:asm/$AOP >r,<r,<t,ROR \$#n:$FLAGS"
+    echo "r $QOP= (t >>> u) $QOP carry:>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP >r,<r,<t,ROR <u:$FLAGS"
+    echo "r $QOP= (t << n) $QOP carry:>r=int32:<r=int32:<t=int32:#n:asm/$AOP >r,<r,<t,LSL \$#n:$FLAGS"
+    echo "r $QOP= (t << u) $QOP carry:>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP >r,<r,<t,LSL <u:$FLAGS"
+    echo "r $QOP= (t signed>> n) $QOP carry:>r=int32:<r=int32:<t=int32:#n:asm/$AOP >r,<r,<t,ASR \$#n:$FLAGS"
+    echo "r $QOP= (t signed>> u) $QOP carry:>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP >r,<r,<t,ASR <u:$FLAGS"
+    echo "r $QOP= (t unsigned>> n) $QOP carry:>r=int32:<r=int32:<t=int32:#n:asm/$AOP >r,<r,<t,LSR \$#n:$FLAGS"
+    echo "r $QOP= (t unsigned>> u) $QOP carry:>r=int32:<r=int32:<t=int32:<u=int32:asm/$AOP >r,<r,<t,LSR <u:$FLAGS"
+    echo "r = s $QOP t $QOP carry:>r=int32:<s=int32:<t=int32:asm/$AOP >r,<s,<t:$FLAGS"
+    echo "r = s $QOP n $QOP carry:>r=int32:<s=int32:#n:asm/$AOP >r,<s,\$#n:$FLAGS"
+    echo "r = s $QOP (t >>> n) $QOP carry:>r=int32:<s=int32:<t=int32:#n:asm/$AOP >r,<s,<t,ROR \$#n:$FLAGS"
+    echo "r = s $QOP (t >>> u) $QOP carry:>r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP >r,<s,<t,ROR <u:$FLAGS"
+    echo "r = s $QOP (t << n) $QOP carry:>r=int32:<s=int32:<t=int32:#n:asm/$AOP >r,<s,<t,LSL \$#n:$FLAGS"
+    echo "r = s $QOP (t << u) $QOP carry:>r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP >r,<s,<t,LSL <u:$FLAGS"
+    echo "r = s $QOP (t signed>> n) $QOP carry:>r=int32:<s=int32:<t=int32:#n:asm/$AOP >r,<s,<t,ASR \$#n:$FLAGS"
+    echo "r = s $QOP (t signed>> u) $QOP carry:>r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP >r,<s,<t,ASR <u:$FLAGS"
+    echo "r = s $QOP (t unsigned>> n) $QOP carry:>r=int32:<s=int32:<t=int32:#n:asm/$AOP >r,<s,<t,LSR \$#n:$FLAGS"
+    echo "r = s $QOP (t unsigned>> u) $QOP carry:>r=int32:<s=int32:<t=int32:<u=int32:asm/$AOP >r,<s,<t,LSR <u:$FLAGS"
+  done
+done
+
+
+echo 'r - s:<r=int32:<s=int32:asm/cmp <r,<s:>?=:>?unsigned>:>?unsigned<:>?signed>:>?signed<:>?negative:>?overflow:>?carry:'
+echo 'r - n:<r=int32:#n:asm/cmp <r,$#n:>?=:>?unsigned>:>?unsigned<:>?signed>:>?signed<:>?negative:>?overflow:>?carry:'
+echo 'r + n:<r=int32:#n:asm/cmp <r,$-#n:>?=:>?unsigned>:>?unsigned<:>?signed>:>?signed<:>?negative:>?overflow:>?carry:'
+
+echo 'r >>>= t:>r=int32:<r=int32:<t=int32:asm/ror >r,<r,<t:'
+echo 'r >>>= n:>r=int32:<r=int32:#n:asm/ror >r,<r,$#n:'
+echo 'r = s >>> t:>r=int32:<s=int32:<t=int32:asm/ror >r,<s,<t:'
+echo 'r = s >>> n:>r=int32:<s=int32:#n:asm/ror >r,<s,$#n:'
+
+echo 'r = mem8[s]:>r=int32:<s=int32:asm/ldrb >r,[<s]:'
+echo 'r = mem8[s]:>r=int32:<s=int32:asm/ldrb >r,[<s]:'
+echo 'r = mem8[s + n]:>r=int32:<s=int32:#n:asm/ldrb >r,[<s,$#n]:'
+echo 'r = mem8[s - n]:>r=int32:<s=int32:#n:asm/ldrb >r,[<s,$-#n]:'
+echo 'r = mem8[s]; s += n:>r=int32:<s=int32:#n:asm/ldrb >r,[<s],$#n:'
+echo 'r = mem8[s]; s -= n:>r=int32:<s=int32:#n:asm/ldrb >r,[<s],$-#n:'
+echo 'r = mem8[s + t]:>r=int32:<s=int32:<t=int32:asm/ldrb >r,[<s,<t]:'
+echo 'r = mem16[s]:>r=int32:<s=int32:asm/ldrh >r,[<s]:'
+echo 'r = mem16[s]:>r=int32:<s=int32:asm/ldrh >r,[<s]:'
+echo 'r = mem16[s + n]:>r=int32:<s=int32:#n:asm/ldrh >r,[<s,$#n]:'
+echo 'r = mem16[s - n]:>r=int32:<s=int32:#n:asm/ldrh >r,[<s,$-#n]:'
+echo 'r = mem16[s]; s += n:>r=int32:<s=int32:#n:asm/ldrh >r,[<s],$#n:'
+echo 'r = mem16[s]; s -= n:>r=int32:<s=int32:#n:asm/ldrh >r,[<s],$-#n:'
+echo 'r = mem16[s + t]:>r=int32:<s=int32:<t=int32:asm/ldrh >r,[<s,<t]:'
+echo 'r = mem32[s]:>r=int32:<s=int32:asm/ldr >r,[<s]:'
+echo 'r = mem32[s]:>r=int32:<s=int32:asm/ldr >r,[<s]:'
+echo 'r = mem32[s]:>r=int32:<s=int32:asm/ldr >r,[<s]:'
+echo 'r = mem32[s + n]:>r=int32:<s=int32:#n:asm/ldr >r,[<s,$#n]:'
+echo 'r = mem32[s - n]:>r=int32:<s=int32:#n:asm/ldr >r,[<s,$-#n]:'
+echo 'r = mem32[s]; s += n:>r=int32:<s=int32:#n:asm/ldr >r,[<s],$#n:'
+echo 'r = mem32[s]; s -= n:>r=int32:<s=int32:#n:asm/ldr >r,[<s],$-#n:'
+echo 'r = mem32[s + t]:>r=int32:<s=int32:<t=int32:asm/ldr >r,[<s,<t]:'
+echo 'r = mem32[s + (t << n)]:>r=int32:<s=int32:<t=int32:#n:asm/ldr >r,[<s,<t, LSL $#n]:'
+echo 'r = mem32[s + (t unsigned>> n)]:>r=int32:<s=int32:<t=int32:#n:asm/ldr >r,[<s,<t, LSR $#n]:'
+echo 'mem8[s] = r:<r=int32:<s=int32:asm/strb <r,[<s]:'
+echo 'mem8[s] = r:<r=int32:<s=int32:asm/strb <r,[<s]:'
+echo 'mem8[s + n] = r:<r=int32:<s=int32:#n:asm/strb <r,[<s,$#n]:'
+echo 'mem8[s - n] = r:<r=int32:<s=int32:#n:asm/strb <r,[<s,$-#n]:'
+echo 'mem8[s] = r; s += n:<r=int32:<s=int32:#n:asm/strb <r,[<s],$#n:'
+echo 'mem8[s] = r; s -= n:<r=int32:<s=int32:#n:asm/strb <r,[<s],$-#n:'
+echo 'mem16[s] = r:<r=int32:<s=int32:asm/strh <r,[<s]:'
+echo 'mem16[s] = r:<r=int32:<s=int32:asm/strh <r,[<s]:'
+echo 'mem16[s + n] = r:<r=int32:<s=int32:#n:asm/strh <r,[<s,$#n]:'
+echo 'mem16[s - n] = r:<r=int32:<s=int32:#n:asm/strh <r,[<s,$-#n]:'
+echo 'mem16[s] = r; s += n:<r=int32:<s=int32:#n:asm/strh <r,[<s],$#n:'
+echo 'mem16[s] = r; s -= n:<r=int32:<s=int32:#n:asm/strh <r,[<s],$-#n:'
+echo 'mem32[s] = r:<r=int32:<s=int32:asm/str <r,[<s]:'
+echo 'mem32[s] = r:<r=int32:<s=int32:asm/str <r,[<s]:'
+echo 'mem32[s] = r:<r=int32:<s=int32:asm/str <r,[<s]:'
+echo 'mem32[s + n] = r:<r=int32:<s=int32:#n:asm/str <r,[<s,$#n]:'
+echo 'mem32[s - n] = r:<r=int32:<s=int32:#n:asm/str <r,[<s,$-#n]:'
+echo 'mem32[s] = r; s += n:<r=int32:<s=int32:#n:asm/str <r,[<s],$#n:'
+echo 'mem32[s] = r; s -= n:<r=int32:<s=int32:#n:asm/str <r,[<s],$-#n:'
+
+echo 'assign r0 to r:<r=int32#1:'
+echo 'assign r1 to r:<r=int32#2:'
+echo 'assign r2 to r:<r=int32#3:'
+echo 'assign r3 to r:<r=int32#4:'
+echo 'assign r4 to r:<r=int32#5:'
+echo 'assign r5 to r:<r=int32#6:'
+echo 'assign r6 to r:<r=int32#7:'
+echo 'assign r7 to r:<r=int32#8:'
+echo 'assign r8 to r:<r=int32#9:'
+echo 'assign r9 to r:<r=int32#10:'
+echo 'assign r10 to r:<r=int32#11:'
+echo 'assign r11 to r:<r=int32#12:'
+echo 'assign r12 to r:<r=int32#13:'
+echo 'assign r14 to r:<r=int32#14:'
+echo 'assign r0 r1 to r s;mem64[t + n] = r s:<r=int32#1:<s=int32#2:<t=int32:#n:asm/strd <r,[<t,$#n]:'
+echo 'assign r2 r3 to r s;mem64[t + n] = r s:<r=int32#3:<s=int32#4:<t=int32:#n:asm/strd <r,[<t,$#n]:'
+echo 'assign r4 r5 to r s;mem64[t + n] = r s:<r=int32#5:<s=int32#6:<t=int32:#n:asm/strd <r,[<t,$#n]:'
+echo 'assign r6 r7 to r s;mem64[t + n] = r s:<r=int32#7:<s=int32#8:<t=int32:#n:asm/strd <r,[<t,$#n]:'
+echo 'assign r8 r9 to r s;mem64[t + n] = r s:<r=int32#9:<s=int32#10:<t=int32:#n:asm/strd <r,[<t,$#n]:'
+echo 'assign r10 r11 to r s;mem64[t + n] = r s:<r=int32#11:<s=int32#12:<t=int32:#n:asm/strd <r,[<t,$#n]:'
+echo 'assign r0 r1 to r s;mem64[t] = r s;t += n:<r=int32#1:<s=int32#2:<t=int32:#n:asm/strd <r,[<t],$#n:'
+echo 'assign r2 r3 to r s;mem64[t] = r s;t += n:<r=int32#3:<s=int32#4:<t=int32:#n:asm/strd <r,[<t],$#n:'
+echo 'assign r4 r5 to r s;mem64[t] = r s;t += n:<r=int32#5:<s=int32#6:<t=int32:#n:asm/strd <r,[<t],$#n:'
+echo 'assign r6 r7 to r s;mem64[t] = r s;t += n:<r=int32#7:<s=int32#8:<t=int32:#n:asm/strd <r,[<t],$#n:'
+echo 'assign r8 r9 to r s;mem64[t] = r s;t += n:<r=int32#9:<s=int32#10:<t=int32:#n:asm/strd <r,[<t],$#n:'
+echo 'assign r10 r11 to r s;mem64[t] = r s;t += n:<r=int32#11:<s=int32#12:<t=int32:#n:asm/strd <r,[<t],$#n:'
+echo 'assign r0 r1 to r s;mem64[t + u] = r s:<r=int32#1:<s=int32#2:<t=int32:<u=int32:asm/strd <r,[<t,<u]:'
+echo 'assign r2 r3 to r s;mem64[t + u] = r s:<r=int32#3:<s=int32#4:<t=int32:<u=int32:asm/strd <r,[<t,<u]:'
+echo 'assign r4 r5 to r s;mem64[t + u] = r s:<r=int32#5:<s=int32#6:<t=int32:<u=int32:asm/strd <r,[<t,<u]:'
+echo 'assign r6 r7 to r s;mem64[t + u] = r s:<r=int32#7:<s=int32#8:<t=int32:<u=int32:asm/strd <r,[<t,<u]:'
+echo 'assign r8 r9 to r s;mem64[t + u] = r s:<r=int32#9:<s=int32#10:<t=int32:<u=int32:asm/strd <r,[<t,<u]:'
+echo 'assign r10 r11 to r s;mem64[t + u] = r s:<r=int32#11:<s=int32#12:<t=int32:<u=int32:asm/strd <r,[<t,<u]:'
+echo 'assign r0 r1 to r s;t = r s:<r=int32#1:<s=int32#2:>t=stack64:#n:asm/strd <r,>t:'
+echo 'assign r2 r3 to r s;t = r s:<r=int32#3:<s=int32#4:>t=stack64:#n:asm/strd <r,>t:'
+echo 'assign r4 r5 to r s;t = r s:<r=int32#5:<s=int32#6:>t=stack64:#n:asm/strd <r,>t:'
+echo 'assign r6 r7 to r s;t = r s:<r=int32#7:<s=int32#8:>t=stack64:#n:asm/strd <r,>t:'
+echo 'assign r8 r9 to r s;t = r s:<r=int32#9:<s=int32#10:>t=stack64:#n:asm/strd <r,>t:'
+echo 'assign r10 r11 to r s;t = r s:<r=int32#11:<s=int32#12:>t=stack64:#n:asm/strd <r,>t:'
+
+echo 'assign r0 r1 to r s = mem64[t + n]:>r=int32#1:>s=int32#2:<t=int32:#n:asm/ldrd >r,[<t,$#n]:'
+echo 'assign r2 r3 to r s = mem64[t + n]:>r=int32#3:>s=int32#4:<t=int32:#n:asm/ldrd >r,[<t,$#n]:'
+echo 'assign r4 r5 to r s = mem64[t + n]:>r=int32#5:>s=int32#6:<t=int32:#n:asm/ldrd >r,[<t,$#n]:'
+echo 'assign r6 r7 to r s = mem64[t + n]:>r=int32#7:>s=int32#8:<t=int32:#n:asm/ldrd >r,[<t,$#n]:'
+echo 'assign r8 r9 to r s = mem64[t + n]:>r=int32#9:>s=int32#10:<t=int32:#n:asm/ldrd >r,[<t,$#n]:'
+echo 'assign r10 r11 to r s = mem64[t + n]:>r=int32#11:>s=int32#12:<t=int32:#n:asm/ldrd >r,[<t,$#n]:'
+echo 'assign r0 r1 to r s = mem64[t]; t += n:>r=int32#1:>s=int32#2:<t=int32:#n:asm/ldrd >r,[<t],$#n:'
+echo 'assign r2 r3 to r s = mem64[t]; t += n:>r=int32#3:>s=int32#4:<t=int32:#n:asm/ldrd >r,[<t],$#n:'
+echo 'assign r4 r5 to r s = mem64[t]; t += n:>r=int32#5:>s=int32#6:<t=int32:#n:asm/ldrd >r,[<t],$#n:'
+echo 'assign r6 r7 to r s = mem64[t]; t += n:>r=int32#7:>s=int32#8:<t=int32:#n:asm/ldrd >r,[<t],$#n:'
+echo 'assign r8 r9 to r s = mem64[t]; t += n:>r=int32#9:>s=int32#10:<t=int32:#n:asm/ldrd >r,[<t],$#n:'
+echo 'assign r10 r11 to r s = mem64[t]; t += n:>r=int32#11:>s=int32#12:<t=int32:#n:asm/ldrd >r,[<t],$#n:'
+echo 'assign r0 r1 to r s = mem64[t + u]:>r=int32#1:>s=int32#2:<t=int32:<u=int32:asm/ldrd >r,[<t,<u]:'
+echo 'assign r2 r3 to r s = mem64[t + u]:>r=int32#3:>s=int32#4:<t=int32:<u=int32:asm/ldrd >r,[<t,<u]:'
+echo 'assign r4 r5 to r s = mem64[t + u]:>r=int32#5:>s=int32#6:<t=int32:<u=int32:asm/ldrd >r,[<t,<u]:'
+echo 'assign r6 r7 to r s = mem64[t + u]:>r=int32#7:>s=int32#8:<t=int32:<u=int32:asm/ldrd >r,[<t,<u]:'
+echo 'assign r8 r9 to r s = mem64[t + u]:>r=int32#9:>s=int32#10:<t=int32:<u=int32:asm/ldrd >r,[<t,<u]:'
+echo 'assign r10 r11 to r s = mem64[t + u]:>r=int32#11:>s=int32#12:<t=int32:<u=int32:asm/ldrd >r,[<t,<u]:'
+echo 'assign r0 r1 to r s = t:>r=int32#1:>s=int32#2:<t=stack64:#n:asm/ldrd >r,<t:'
+echo 'assign r2 r3 to r s = t:>r=int32#3:>s=int32#4:<t=stack64:#n:asm/ldrd >r,<t:'
+echo 'assign r4 r5 to r s = t:>r=int32#5:>s=int32#6:<t=stack64:#n:asm/ldrd >r,<t:'
+echo 'assign r6 r7 to r s = t:>r=int32#7:>s=int32#8:<t=stack64:#n:asm/ldrd >r,<t:'
+echo 'assign r8 r9 to r s = t:>r=int32#9:>s=int32#10:<t=stack64:#n:asm/ldrd >r,<t:'
+echo 'assign r10 r11 to r s = t:>r=int32#11:>s=int32#12:<t=stack64:#n:asm/ldrd >r,<t:'
+
+for((i=3;i<15;i++));do
+  for((j=2;j<i;j++));do
+    for((k=1;k<j;k++));do
+      echo "r s t = mem96[a]:>r=int32#$k:>s=int32#$j:>t=int32#$i:<a=int32:asm/ldm {>r,>s,>t},[<a]:"
+    done
+  done
+done
+
+for((i=3;i<15;i++));do
+  for((j=2;j<i;j++));do
+    for((k=1;k<j;k++));do
+      echo "r s t = mem96[a];a+=12:>r=int32#$k:>s=int32#$j:>t=int32#$i:<a=int32:asm/ldm {>r,>s,>t},[<a]!:"
+    done
+  done
+done
+
+for((i=4;i<15;i++));do
+  for((j=3;j<i;j++));do
+    for((k=2;k<j;k++));do
+      for((l=1;l<k;l++));do
+        echo "r s t u = mem128[a]:>r=int32#$l:>s=int32#$k:>t=int32#$j:>u=int32#$i:<a=int32:asm/ldm {>r,>s,>t,>u},[<a]:"
+      done
+    done
+  done
+done
+
+for((i=4;i<15;i++));do
+  for((j=3;j<i;j++));do
+    for((k=2;k<j;k++));do
+      for((l=1;l<k;l++));do
+        echo "r s t u = mem128[a];a+=16:>r=int32#$l:>s=int32#$k:>t=int32#$j:>u=int32#$i:<a=int32:asm/ldm {>r,>s,>t,>u},[<a]!:"
+      done
+    done
+  done
+done
+
+
+for((i=3;i<15;i++));do
+  for((j=2;j<i;j++));do
+    for((k=1;k<j;k++));do
+      echo "mem96[a] = r s t:<r=int32#$k:<s=int32#$j:<t=int32#$i:<a=int32:asm/stm {<r,<s,<t},[<a]:"
+    done
+  done
+done
+
+for((i=3;i<15;i++));do
+  for((j=2;j<i;j++));do
+    for((k=1;k<j;k++));do
+      echo "mem96[a] = r s t;a+=12:<r=int32#$k:<s=int32#$j:<t=int32#$i:<a=int32:asm/stm {<r,<s,<t},[<a]!:"
+    done
+  done
+done
+
+for((i=4;i<15;i++));do
+  for((j=3;j<i;j++));do
+    for((k=2;k<j;k++));do
+      for((l=1;l<k;l++));do
+        echo "mem128[a] = r s t u:<r=int32#$l:<s=int32#$k:<t=int32#$j:<u=int32#$i:<a=int32:asm/ldm {<r,<s,<t,<u},[<a]:"
+      done
+    done
+  done
+done
+
+for((i=4;i<15;i++));do
+  for((j=3;j<i;j++));do
+    for((k=2;k<j;k++));do
+      for((l=1;l<k;l++));do
+        echo "mem128[a] = r s t u;a+=16:<r=int32#$l:<s=int32#$k:<t=int32#$j:<u=int32#$i:<a=int32:asm/ldm {<r,<s,<t,<u},[<a]!:"
+      done
+    done
+  done
+done
+
+echo 'r = s:>r=int32:<s=stack32:asm/ldr >r,<s:'
+echo 's = r:<r=int32:>s=stack32:asm/str <r,>s:'
+echo 'r = mem32[&s]:>r=int32:<s=stack64:asm/ldr >r,<s:'
+echo 'r = mem32[&s+4]:>r=int32:<s=stack64:asm/ldr >r,!shift4<s:'
+echo 'mem32[&s] = r:inplace>s=stack64:<r=int32:<s=stack64:asm/str <r,<s:'
+echo 'mem32[&s+4] = r:inplace>s=stack64:<r=int32:<s=stack64:asm/str <r,!shift4<s:'
+
+echo 'r = &s:>r=int32:inplace>s=stack128:<s=stack128:asm/lea >r,<s:'
+echo 'r = &s:>r=int32:inplace>s=stack256:<s=stack256:asm/lea >r,<s:'
+echo 'r = &s:>r=int32:inplace>s=stack512:<s=stack512:asm/lea >r,<s:'
+echo 'r = &s:>r=int32:inplace>s=stack1024:<s=stack1024:asm/lea >r,<s:'
+echo 'r = &s:>r=int32:inplace>s=stack1600:<s=stack1600:asm/lea >r,<s:'
+echo 'r = &s:>r=int32:inplace>s=stack3072:<s=stack3072:asm/lea >r,<s:'
+
+echo 'r = mem128[s]:>r=reg128:<s=int32:asm/vld1.8 {>r%bot->r%top},[<s]:'
+echo 'r = mem128[s];s+=16:>r=reg128:<s=int32:asm/vld1.8 {>r%bot->r%top},[<s]!:'
+echo 'r = mem128[s];s+=t:>r=reg128:<s=int32:<t=int32:asm/vld1.8 {>r%bot->r%top},[<s],<t:'
+echo 'mem128[s] aligned= r:<r=reg128:<s=int32:asm/vst1.8 {<r%bot-<r%top},[<s,!colon 128]'
+echo 'mem128[s] aligned= r;s+=16:<r=reg128:<s=int32:asm/vst1.8 {<r%bot-<r%top},[<s,!colon 128]!'
+echo 'r aligned= mem128[s]:>r=reg128:<s=int32:asm/vld1.8 {>r%bot->r%top},[<s,!colon 128]'
+echo 'r aligned= mem128[s];s+=16:>r=reg128:<s=int32:asm/vld1.8 {>r%bot->r%top},[<s,!colon 128]!:'
+echo 'mem128[s] = r:<r=reg128:<s=int32:asm/vst1.8 {<r%bot-<r%top},[<s]:'
+echo 'mem128[s] = r;s+=16:<r=reg128:<s=int32:asm/vst1.8 {<r%bot-<r%top},[<s]!:'
+echo 'r = mem64[s]r[1]:<r=reg128:inplace>r=reg128:<s=int32:asm/vld1.8 {<r%bot},[<s]:'
+echo 'r = mem64[s]r[1];s+=8:<r=reg128:inplace>r=reg128:<s=int32:asm/vld1.8 {<r%bot},[<s]!:'
+echo 'r = r[0]mem64[s]:<r=reg128:inplace>r=reg128:<s=int32:asm/vld1.8 {<r%top},[<s]:'
+echo 'r = r[0]mem64[s];s+=8:<r=reg128:inplace>r=reg128:<s=int32:asm/vld1.8 {<r%top},[<s]!:'
+echo 'r aligned= mem64[s]r[1]:<r=reg128:inplace>r=reg128:<s=int32:asm/vld1.8 {<r%bot},[<s,!colon 64]:'
+echo 'r aligned= r[0]mem64[s]:<r=reg128:inplace>r=reg128:<s=int32:asm/vld1.8 {<r%top},[<s,!colon 64]:'
+echo 'r aligned= mem64[s]r[1];s+=8:<r=reg128:inplace>r=reg128:<s=int32:asm/vld1.8 {<r%bot},[<s,!colon 64]!:'
+echo 'r aligned= mem64[s]r[1];s+=t:<r=reg128:inplace>r=reg128:<s=int32:<t=int32:asm/vld1.8 {<r%bot},[<s,!colon 64],<t:'
+echo 'r aligned= r[0]mem64[s];s+=8:<r=reg128:inplace>r=reg128:<s=int32:asm/vld1.8 {<r%top},[<s,!colon 64]!:'
+echo 'r aligned= r[0]mem64[s];s+=t:<r=reg128:inplace>r=reg128:<s=int32:<t=int32:asm/vld1.8 {<r%top},[<s,!colon 64],<t:'
+echo 'mem64[s] = r[0]:<r=reg128:<s=int32:asm/vst1.8 <r%bot,[<s]:'
+echo 'mem64[s] = r[0];s+=8:<r=reg128:<s=int32:asm/vst1.8 <r%bot,[<s]!:'
+echo 'mem64[s] = r[1]:<r=reg128:<s=int32:asm/vst1.8 <r%top,[<s]:'
+echo 'mem64[s] = r[1];s+=8:<r=reg128:<s=int32:asm/vst1.8 <r%top,[<s]!:'
+echo 'mem64[s] aligned= r[0]:<r=reg128:<s=int32:asm/vst1.8 <r%bot,[<s,!colon 64]:'
+echo 'mem64[s] aligned= r[0];s+=8:<r=reg128:<s=int32:asm/vst1.8 <r%bot,[<s,!colon 64]!:'
+echo 'mem64[s] aligned= r[1]:<r=reg128:<s=int32:asm/vst1.8 <r%top,[<s,!colon 64]:'
+echo 'mem64[s] aligned= r[1];s+=8:<r=reg128:<s=int32:asm/vst1.8 <r%top,[<s,!colon 64]!:'
+
+echo 'r = s[0]r[1]:<r=reg128:inplace>r=reg128:<s=stack128:asm/vldr <r%bot,<s:'
+echo 'r = r[0]s[1]:<r=reg128:inplace>r=reg128:<s=stack128:asm/vldr <r%top,!shift8<s:'
+echo 's = r[0]s[1]:<r=reg128:<s=stack128:inplace>s=stack128:asm/vstr <r%bot,<s:'
+echo 's = s[0]r[1]:<r=reg128:<s=stack128:inplace>s=stack128:asm/vstr <r%top,!shift8<s:'
+#echo 'r = s:>r=reg128:<s=stack128:asm/vld1.8 {>r%bot->r%top},<s'
+echo 'r[0] = s:<r=reg128:inplace>r=reg128:<s=stack64:asm/vldr <r%bot,<s'
+echo 'r[1] = s:<r=reg128:inplace>r=reg128:<s=stack64:asm/vldr <r%top,<s'
+#echo 'r = s:>r=stack128:<s=reg128:asm/vst1.8 {<s%bot-<s%top},>r'
+echo 'r = s[0]:>r=stack64:<s=reg128:asm/vstr <s%bot,>r:'
+echo 'r = s[1]:>r=stack64:<s=reg128:asm/vstr <s%top,>r:'
+
+echo 'r ^= t:>r=reg128:<r=reg128:<t=reg128:asm/veor >r,<r,<t:'
+echo 'r &= t:>r=reg128:<r=reg128:<t=reg128:asm/vand >r,<r,<t:'
+echo 'r &= ~t:>r=reg128:<r=reg128:<t=reg128:asm/vbic >r,<r,<t:'
+echo 'r |= t:>r=reg128:<r=reg128:<t=reg128:asm/vorr >r,<r,<t:'
+echo 'r |= ~t:>r=reg128:<r=reg128:<t=reg128:asm/vorn >r,<r,<t:'
+echo '4x r &= n:inplace>r=reg128:<r=reg128:#n:asm/vand.i32 <r,$#n:'
+echo '4x r |= n:inplace>r=reg128:<r=reg128:#n:asm/vorr.i32 <r,$#n:'
+
+echo 'r = s:>r=reg128:<s=reg128:asm/vmov >r,<s:'
+echo 'r = s[0]r[1]:inplace>r=reg128:<r=reg128:<s=reg128:asm/vmov <r%bot,<s%bot'
+echo 'r = r[0]s[0]:inplace>r=reg128:<r=reg128:<s=reg128:asm/vmov <r%top,<s%bot'
+echo 'r = s[1]r[1]:inplace>r=reg128:<r=reg128:<s=reg128:asm/vmov <r%bot,<s%top'
+echo 'r = r[0]s[1]:inplace>r=reg128:<r=reg128:<s=reg128:asm/vmov <r%top,<s%top'
+echo 'r = ~s:>r=reg128:<s=reg128:asm/vmvn >r,<s:'
+echo 'r = s ^ t:>r=reg128:<s=reg128:<t=reg128:asm/veor >r,<s,<t:'
+echo 'r = s & t:>r=reg128:<s=reg128:<t=reg128:asm/vand >r,<s,<t:'
+echo 'r = s & ~t:>r=reg128:<s=reg128:<t=reg128:asm/vbic >r,<s,<t:'
+echo 'r = s | t:>r=reg128:<s=reg128:<t=reg128:asm/vorr >r,<s,<t:'
+echo 'r = s | ~t:>r=reg128:<s=reg128:<t=reg128:asm/vorn >r,<s,<t:'
+echo 's = (s & t) | (~s & u):inplace>s=reg128:<s=reg128:<t=reg128:<u=reg128:asm/vbsl <s,<t,<u:'
+echo 'u = (s & t) | (~s & u):inplace>u=reg128:<s=reg128:<t=reg128:<u=reg128:asm/vbit <u,<t,<s:'
+echo 't = (s & t) | (~s & u):inplace>t=reg128:<s=reg128:<t=reg128:<u=reg128:asm/vbif <t,<u,<s:'
+
+echo '2x r = n:>r=reg128:#n:asm/vmov.i64 >r,$#n:'
+echo '2x r = ~n:>r=reg128:#n:asm/vmvn.i64 >r,$#n:'
+echo '4x r = n:>r=reg128:#n:asm/vmov.i32 >r,$#n:'
+echo '4x r = s:>r=reg128:<s=int32:asm/vdup.i32 >r,<s:'
+echo '4x r = ~n:>r=reg128:#n:asm/vmvn.i32 >r,$#n:'
+echo 'r = s,s,s,s:>r=reg128:<s=int32:asm/vdup.i32 >r,<s:'
+echo 'r = s,s,r[2,3]:inplace>r=reg128:<r=reg128:<s=int32:asm/vdup.i32 <r%bot,<s:'
+echo 'r = r[0,1],s,s:inplace>r=reg128:<r=reg128:<s=int32:asm/vdup.i32 <r%top,<s:'
+echo 'r = r[0,1],n,n:<r=reg128:inplace>r=reg128:#n:asm/vmov.i32 <r%top,$#n:'
+echo 'r = n,n,r[2,3]:<r=reg128:inplace>r=reg128:#n:asm/vmov.i32 <r%bot,$#n:'
+echo 'r = n,r[1]:<r=reg128:inplace>r=reg128:#n:asm/vmov.i64 <r%bot,$#n:'
+echo 'r = r[0],n:<r=reg128:inplace>r=reg128:#n:asm/vmov.i64 <r%top,$#n:'
+echo 'r = n,n,n,n,n,n,n,n,n,n,n,n,n,n,n,n:>r=reg128:#n:asm/vmov.i8 >r,$#n:'
+echo 'r = s,r[1,2,3]:inplace>r=reg128:<r=reg128:<s=int32:asm/vmov.32 <r%bot[0],<s:'
+
+echo '2x r += t:>r=reg128:<r=reg128:<t=reg128:asm/vadd.i64 >r,<r,<t:'
+echo '2x r = s + t:>r=reg128:<s=reg128:<t=reg128:asm/vadd.i64 >r,<s,<t:'
+echo '2x r -= t:>r=reg128:<r=reg128:<t=reg128:asm/vsub.i64 >r,<r,<t:'
+echo '2x r = s - t:>r=reg128:<s=reg128:<t=reg128:asm/vsub.i64 >r,<s,<t:'
+echo '4x r = -s:>r=reg128:<s=reg128:asm/vneg.s32 >r,<s:'
+echo '4x r += t:>r=reg128:<r=reg128:<t=reg128:asm/vadd.i32 >r,<r,<t:'
+echo '4x r -= t:>r=reg128:<r=reg128:<t=reg128:asm/vsub.i32 >r,<r,<t:'
+echo '4x r unsigned>>= n:>r=reg128:<r=reg128:#n:asm/vshr.u32 >r,<r,$#n:'
+echo '4x r <<= n:>r=reg128:<r=reg128:#n:asm/vshl.u32 >r,<r,$#n:'
+echo '4x r = s + t:>r=reg128:<s=reg128:<t=reg128:asm/vadd.i32 >r,<s,<t:'
+echo '4x r = s - t:>r=reg128:<s=reg128:<t=reg128:asm/vsub.i32 >r,<s,<t:'
+echo '4x r = s << n:>r=reg128:<s=reg128:#n:asm/vshl.i32 >r,<s,$#n:'
+echo '4x r = s << t:>r=reg128:<s=reg128:<t=reg128:#n:asm/vshl.u32 >r,<s,<t:'
+echo '4x r = s unsigned>> n:>r=reg128:<s=reg128:#n:asm/vshr.u32 >r,<s,$#n:'
+echo '4x r insert= s >> n:inplace>r=reg128:<r=reg128:<s=reg128:#n:asm/vsri.i32 <r,<s,$#n:'
+echo '2x r unsigned>>= n:>r=reg128:<r=reg128:#n:asm/vshr.u64 >r,<r,$#n:'
+echo '2x r signed>>= n:>r=reg128:<r=reg128:#n:asm/vshr.s64 >r,<r,$#n:'
+echo '2x r <<= n:>r=reg128:<r=reg128:#n:asm/vshl.i64 >r,<r,$#n:'
+echo '2x r = s unsigned>> n:>r=reg128:<s=reg128:#n:asm/vshr.u64 >r,<s,$#n:'
+echo '2x r = s signed>> n:>r=reg128:<s=reg128:#n:asm/vshr.s64 >r,<s,$#n:'
+echo '2x r = s << n:>r=reg128:<s=reg128:#n:asm/vshl.i64 >r,<s,$#n:'
+echo 'r = t[0] << s[0],t[1] << s[1],r[2,3]:inplace>r=reg128:<r=reg128:<t=reg128:<s=reg128:asm/vshl.u32 <r%bot,<t%bot,<s%bot:'
+
+( echo vmull =
+) | while read insn accum
+do
+  echo "r[0,1] $accum s[0] unsigned* t[0];r[2,3] $accum s[1] unsigned* t[1]:>r=reg128:<s=reg128:<t=reg128:asm/$insn.u32 >r,<s%bot,<t%bot:"
+  echo "r[0,1] $accum s[0] unsigned* t[2];r[2,3] $accum s[1] unsigned* t[3]:>r=reg128:<s=reg128:<t=reg128:asm/$insn.u32 >r,<s%bot,<t%top:"
+  echo "r[0,1] $accum s[2] unsigned* t[0];r[2,3] $accum s[3] unsigned* t[1]:>r=reg128:<s=reg128:<t=reg128:asm/$insn.u32 >r,<s%top,<t%bot:"
+  echo "r[0,1] $accum s[2] unsigned* t[2];r[2,3] $accum s[3] unsigned* t[3]:>r=reg128:<s=reg128:<t=reg128:asm/$insn.u32 >r,<s%top,<t%top:"
+  echo "r[0,1] $accum s[0] signed* t[0];r[2,3] $accum s[1] signed* t[1]:>r=reg128:<s=reg128:<t=reg128:asm/$insn.s32 >r,<s%bot,<t%bot:"
+  echo "r[0,1] $accum s[0] signed* t[2];r[2,3] $accum s[1] signed* t[3]:>r=reg128:<s=reg128:<t=reg128:asm/$insn.s32 >r,<s%bot,<t%top:"
+  echo "r[0,1] $accum s[2] signed* t[0];r[2,3] $accum s[3] signed* t[1]:>r=reg128:<s=reg128:<t=reg128:asm/$insn.s32 >r,<s%top,<t%bot:"
+  echo "r[0,1] $accum s[2] signed* t[2];r[2,3] $accum s[3] signed* t[3]:>r=reg128:<s=reg128:<t=reg128:asm/$insn.s32 >r,<s%top,<t%top:"
+done
+
+( echo vmlal +=
+) | while read insn accum
+do
+  echo "r[0,1] $accum s[0] unsigned* t[0];r[2,3] $accum s[1] unsigned* t[1]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/$insn.u32 <r,<s%bot,<t%bot:"
+  echo "r[0,1] $accum s[0] unsigned* t[2];r[2,3] $accum s[1] unsigned* t[3]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/$insn.u32 <r,<s%bot,<t%top:"
+  echo "r[0,1] $accum s[2] unsigned* t[0];r[2,3] $accum s[3] unsigned* t[1]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/$insn.u32 <r,<s%top,<t%bot:"
+  echo "r[0,1] $accum s[2] unsigned* t[2];r[2,3] $accum s[3] unsigned* t[3]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/$insn.u32 <r,<s%top,<t%top:"
+  echo "r[0,1] $accum s[0] signed* t[0];r[2,3] $accum s[1] signed* t[1]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/$insn.s32 <r,<s%bot,<t%bot:"
+  echo "r[0,1] $accum s[0] signed* t[2];r[2,3] $accum s[1] signed* t[3]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/$insn.s32 <r,<s%bot,<t%top:"
+  echo "r[0,1] $accum s[2] signed* t[0];r[2,3] $accum s[3] signed* t[1]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/$insn.s32 <r,<s%top,<t%bot:"
+  echo "r[0,1] $accum s[2] signed* t[2];r[2,3] $accum s[3] signed* t[3]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/$insn.s32 <r,<s%top,<t%top:"
+done
+
+echo "4x r = s * t:>r=reg128:<s=reg128:<t=reg128:asm/vmul.i32 >r,<s,<t:"
+echo "r[0] = s[0] * t[0];r[1] = s[1] * t[1];r[2,3] = r[2,3]:>r=reg128:<s=reg128:<t=reg128:asm/vmul.i32 >r%bot,<s%bot,<t%bot:"
+echo 'r[0,1] = r[0,1];r[2] = s[2] * t[2];r[3] = s[3] * t[3]:>r=reg128:<s=reg128:<t=reg128:asm/vmul.i32 >r%top,<s%top,<t%top:"'
+
+echo 'r = r[0,1]s[0,1]:<r=reg128:inplace>r=reg128:<s=reg128:asm/vext.32 <r%top,<s%bot,<s%bot,$0:'
+echo 'r = r[0,1]s[2,3]:<r=reg128:inplace>r=reg128:<s=reg128:asm/vext.32 <r%top,<s%top,<s%top,$0:'
+echo 'r = s[0,1]r[2,3]:<r=reg128:inplace>r=reg128:<s=reg128:asm/vext.32 <r%bot,<s%bot,<s%bot,$0:'
+echo 'r = s[2,3]r[2,3]:<r=reg128:inplace>r=reg128:<s=reg128:asm/vext.32 <r%bot,<s%top,<s%bot,$0:'
+echo 'r = r[0,1]s[1]t[0]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vext.32 <r%top,<s%bot,<t%bot,$1:'
+echo 'r = r[0,1]s[1]t[2]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vext.32 <r%top,<s%bot,<t%top,$1:'
+echo 'r = r[0,1]s[3]t[0]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vext.32 <r%top,<s%top,<t%bot,$1:'
+echo 'r = r[0,1]s[3]t[2]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vext.32 <r%top,<s%top,<t%top,$1:'
+echo 'r = s[1]t[0]r[2,3]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vext.32 <r%bot,<s%bot,<t%bot,$1:'
+echo 'r = s[3]t[0]r[2,3]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vext.32 <r%bot,<s%top,<t%bot,$1:'
+echo 'r = s[1]t[2]r[2,3]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vext.32 <r%bot,<s%bot,<t%top,$1:'
+echo 'r = s[1,2,3]t[0]:>r=reg128:<s=reg128:<t=reg128:asm/vext.32 >r,<s,<t,$1:'
+echo 'r = r[1]r[0]:<r=reg128:inplace>r=reg128:asm/vswp <r%bot,<r%top:'
+echo 'r = r[1,0]:<r=reg128:inplace>r=reg128:asm/vswp <r%bot,<r%top:'
+echo 'r = r[2,3]r[0,1]:<r=reg128:inplace>r=reg128:asm/vswp <r%bot,<r%top:'
+echo 'r s = r[0]s[0]r[1]s[1]:<r=reg128:inplace>r=reg128:<s=reg128:inplace>s=reg128:asm/vswp <s%bot,<r%top:'
+echo 'r s = r[0]s[1]s[0]r[1]:<r=reg128:inplace>r=reg128:<s=reg128:inplace>s=reg128:asm/vswp <s%top,<r%top:'
+echo 'r s = s[0]r[1]r[0]s[1]:<r=reg128:inplace>r=reg128:<s=reg128:inplace>s=reg128:asm/vswp <s%bot,<r%bot:'
+echo 'r s = r[0]s[0]r[2]r[3]r[1]s[1]s[2]s[3]:<r=reg128:inplace>r=reg128:<s=reg128:inplace>s=reg128:asm/vtrn.32 <r%bot,<s%bot:'
+echo 'r s = r[0]r[1]r[2]s[2]s[0]s[1]r[3]s[3]:<r=reg128:inplace>r=reg128:<s=reg128:inplace>s=reg128:asm/vtrn.32 <r%top,<s%top:'
+echo 'r s = r[0]s[0]r[2]s[2]r[1]s[1]r[3]s[3]:<r=reg128:inplace>r=reg128:<s=reg128:inplace>s=reg128:asm/vtrn.32 <r,<s:'
+echo 'r = r[0]r[2]r[1]r[3]:<r=reg128:inplace>r=reg128:asm/vtrn.32 <r%bot,<r%top:'
+echo 'r = r[0,2,1,3]:<r=reg128:inplace>r=reg128:asm/vtrn.32 <r%bot,<r%top:'
+echo 'r = r[0,4,2,6,1,5,3,7]:<r=reg128:inplace>r=reg128:asm/vtrn.16 <r%bot,<r%top:'
+echo 'r = r[0,8,2,10,4,12,6,14,1,9,3,11,5,13,7,15]:<r=reg128:inplace>r=reg128:asm/vtrn.8 <r%bot,<r%top:'
+echo 'r = s[2,3]t[0,1]:>r=reg128:<s=reg128:<t=reg128:asm/vext.32 >r,<s,<t,$2:'
+echo 'r = s[3]t[0,1,2]:>r=reg128:<s=reg128:<t=reg128:asm/vext.32 >r,<s,<t,$3:'
+echo 'r = s[3]t[0]r[2,3]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vext.32 <r%bot,<s%top,<t%bot,$1:'
+echo 'r = s[3]t[2]r[2,3]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vext.32 <r%bot,<s%top,<t%top,$1:'
+echo 'r = r[0]s[0]:<r=reg128:inplace>r=reg128:<s=reg128:asm/vmov <r%top,<s%bot:'
+echo 'r = r[0]s[1]:<r=reg128:inplace>r=reg128:<s=reg128:asm/vmov <r%top,<s%top:'
+echo 'r = s[0]r[1]:<r=reg128:inplace>r=reg128:<s=reg128:asm/vmov <r%bot,<s%bot:'
+echo 'r = s[1]r[1]:<r=reg128:inplace>r=reg128:<s=reg128:asm/vmov <r%bot,<s%top:'
+
+echo 'r = r[1]r[0]r[2,3]:<r=reg128:inplace>r=reg128:asm/vrev64.i32 <r%bot,<r%bot:'
+echo 'r = r[0,1]r[3]r[2]:<r=reg128:inplace>r=reg128:asm/vrev64.i32 <r%top,<r%top:'
+echo 's = r[1]r[0]r[3]r[2]:<r=reg128:>s=reg128:asm/vrev64.i32 >s,<r:'
+echo 's = r[1]r[0]r[3]r[2]r[5]r[4]r[7]r[6]:<r=reg128:>s=reg128:asm/vrev32.i16 >s,<r:'
+echo 's = r[1]r[0]r[3]r[2]r[5]r[4]r[7]r[6]r[9]r[8]r[11]r[10]r[13]r[12]r[15]r[14]:<r=reg128:>s=reg128:asm/vrev16.i8 >s,<r:'
+echo 's = r[7,6,5,4,3,2,1,0,15,14,13,12,11,10,9,8]:<r=reg128:>s=reg128:asm/vrev64.i8 >s,<r:'
+echo 's = r[3,2,1,0,7,6,5,4,11,10,9,8,15,14,13,12]:<r=reg128:>s=reg128:asm/vrev32.i8 >s,<r:'
+
+echo 'r[0,1,2,3] s[0,1,2,3] = r[0,2]s[1,3] r[1,3]s[0,2]:inplace>r=reg128:inplace>s=reg128:<r=reg128:<s=reg128:asm/vuzp.i32 <r,<s:'
+echo 'r[0,1,2,3] s[0,1,2,3] = r[0]s[0]r[1]s[1] r[2]s[2]r[3]s[3]:inplace>r=reg128:inplace>s=reg128:<r=reg128:<s=reg128:asm/vzip.i32 <r,<s:'
+echo 'r[0,1,2,3]            = r[0]r[2]r[1]r[3]:inplace>r=reg128:<r=reg128:<s=reg128:asm/vzip.i32 <r%bot,<r%top:'
+
+echo 'r = s[t[0,1,2,3,4,5,6,7]]r[8,9,10,11,12,13,14,15]:>r=reg128:<s=reg128:<t=reg128:asm/vtbl.8 >r%bot,{<s%bot},<t%bot:'
+echo 'r = r[0,1,2,3,4,5,6,7] s[8+t[8,9,10,11,12,13,14,15]]:>r=reg128:<s=reg128:<t=reg128:asm/vtbl.8 >r%top,{<s%top},<t%top:'
+
+# Again: discuss syntax
+echo 'push r s t u:<r=reg128#5:<s=reg128#6:<t=reg128#7:<u=reg128#8:asm/vpush {<r,<s,<t,<u}:'
+echo 'pop r s t u:>r=reg128#5:>s=reg128#6:>t=reg128#7:>u=reg128#8:asm/vpop {>r,>s,>t,>u}:'
+
+# Is it worth extending this section or should we just support 64-bit variables?
+echo 'r = r[0],s[1] + t[1]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vadd.i64 <r%top,<s%top,<t%top:'
+echo 'r = r[0],s[1] + t[0]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vadd.i64 <r%top,<s%top,<t%bot:'
+echo 'r = s[0] + t[0],r[1]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vadd.i64 <r%bot,<s%bot,<t%bot:'
+echo 'r = r[0],s[1] signed>> n:<r=reg128:inplace>r=reg128:<s=reg128:#n:asm/vshr.s64 <r%top,<s%top,$#n:'
+echo 'r = s[0] signed>> n,r[1]:<r=reg128:inplace>r=reg128:<s=reg128:#n:asm/vshr.s64 <r%bot,<s%bot,$#n:'
+echo 'r = r[0],s[1] << n:<r=reg128:inplace>r=reg128:<s=reg128:#n:asm/vshl.i64 <r%top,<s%top,$#n:'
+echo 'r = s[0] << n,r[1]:<r=reg128:inplace>r=reg128:<s=reg128:#n:asm/vshl.i64 <r%bot,<s%bot,$#n:'
+echo 'r = s[0] + t[1],r[1]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vadd.i64 <r%bot,<s%bot,<t%top:'
+echo 'r = r[0],s[1] - t[1]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vsub.i64 <r%top,<s%top,<t%top:'
+echo 'r = s[0] - t[0],r[1]:<r=reg128:inplace>r=reg128:<s=reg128:<t=reg128:asm/vsub.i64 <r%bot,<s%bot,<t%bot:'
+
+#s = s[0],t[1] << 4
+
+# Required for NEON poly1305, discuss and fix syntax!
+echo '2x r[0] <<= n:<r=reg128:>r=reg128:#n:asm/vshl.i32 >r%bot,<r%bot,$#n:'
+echo '2x r[1] <<= n:<r=reg128:>r=reg128:#n:asm/vshl.i32 >r%top,<r%top,$#n:'
+echo '2x r[0] unsigned>>= n:<r=reg128:>r=reg128:#n:asm/vshr.u32 >r%bot,<r%bot,$#n:'
+echo '2x r[1] unsigned>>= n:<r=reg128:>r=reg128:#n:asm/vshr.u32 >r%top,<r%top,$#n:'
+echo '2x s[0] = r[0] << n:<r=reg128:>s=reg128:#n:asm/vshl.i32 >s%bot,<r%bot,$#n:'
+echo '2x s[1] = r[1] << n:<r=reg128:>s=reg128:#n:asm/vshl.i32 >s%top,<r%top,$#n:'
+echo '2x s[0] = r[0] unsigned>> n:<r=reg128:>s=reg128:#n:asm/vshr.u32 >s%bot,<r%bot,$#n:'
+echo '2x s[1] = r[1] unsigned>> n:<r=reg128:>s=reg128:#n:asm/vshr.u32 >s%top,<r%top,$#n:'
+echo '2x s[1] = r[0] unsigned>> n:<r=reg128:>s=reg128:#n:asm/vshr.u32 >s%top,<r%bot,$#n:'
+echo '2x s[0] = r[1] unsigned>> n:<r=reg128:>s=reg128:#n:asm/vshr.u32 >s%bot,<r%top,$#n:'
+echo 'r[0] ^= t[0]:>r=reg128:<r=reg128:<t=reg128:asm/veor >r%bot,<r%bot,<t%bot:'
+echo 'r[1] ^= t[0]:>r=reg128:<r=reg128:<t=reg128:asm/veor >r%top,<r%top,<t%bot:'
+echo 'r[0] ^= t[1]:>r=reg128:<r=reg128:<t=reg128:asm/veor >r%bot,<r%bot,<t%top:'
+echo 'r[1] ^= t[1]:>r=reg128:<r=reg128:<t=reg128:asm/veor >r%top,<r%top,<t%top:'
+
+echo 's[0,1] = r[0]<<n; s[2,3] = r[1]<<n:>s=reg128:<r=reg128:#n:asm/vshll.u32 >s,<r%bot,$#n:'
+echo 's[0,1] = r[2]<<n; s[2,3] = r[3]<<n:>s=reg128:<r=reg128:#n:asm/vshll.u32 >s,<r%top,$#n:'
+
+echo 's[0] = r[0,1] unsigned>> n; s[1] = r[2,3] unsigned>> n:inplace>s=reg128:<s=reg128:<r=reg128:#n:asm/vshrn.u64 <s%bot,<r,$#n:'
+echo 's[2] = r[0,1] unsigned>> n; s[3] = r[2,3] unsigned>> n:inplace>s=reg128:<s=reg128:<r=reg128:#n:asm/vshrn.u64 <s%top,<r,$#n:'
+
+
+echo ':'
+
+echo 'int32 input_0'
+echo 'int32 input_1'
+echo 'int32 input_2'
+echo 'int32 input_3'
+echo 'stack32 input_4'
+echo 'stack32 input_5'
+echo 'stack32 input_6'
+echo 'stack32 input_7'
+echo 'int32 caller_r4'
+echo 'int32 caller_r5'
+echo 'int32 caller_r6'
+echo 'int32 caller_r7'
+echo 'int32 caller_r8'
+echo 'int32 caller_r9'
+echo 'int32 caller_r10'
+echo 'int32 caller_r11'
+echo 'int32 caller_r12'
+echo 'int32 caller_r14'
+echo 'reg128 caller_q4'
+echo 'reg128 caller_q5'
+echo 'reg128 caller_q6'
+echo 'reg128 caller_q7'
+echo 'startcode'
