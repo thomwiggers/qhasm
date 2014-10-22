@@ -1,0 +1,11 @@
+#!/bin/bash
+# This wrapper can be used with distcc to remotely run the qhasm preprocessor.
+# This is useful if disk i/o is slow, like on a raspberry pi. Put this in your
+# path where distcc can find it. Make sure to change $QDIR.
+
+QDIR=path/to/qhasm
+
+[[ "$1" = "-E" ]] && cat $2 && exit
+[[ "$1" = "-c" ]] || exit
+[[ "$3" = "-o" ]] || exit
+$QDIR < $2 > $4
