@@ -417,7 +417,7 @@ echo "r = s & ~(t unsigned>> n):>r=int32:<s=int32:<t=int32:#n:asm/bic >r,<s,<t,L
 echo "r = s & ~(t unsigned>> u):>r=int32:<s=int32:<t=int32:<u=int32:asm/bic >r,<s,<t,LSR <u:"
 
 echo "XXX"
-for OP in '+,adds' '-,subs'; do
+for OP in '+,adds' '-,subs' '&,ands'; do
   QOP=`echo $OP | sed "s/,.*//"`
   AOP=`echo $OP | sed "s/.*,//"`
   FLAGS=">?unsigned>:>?unsigned<:>?signed>:>?signed<:>?negative:>?overflow:>?carry:"
