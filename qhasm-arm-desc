@@ -608,7 +608,7 @@ for((i=4;i<15;i++));do
   for((j=3;j<i;j++));do
     for((k=2;k<j;k++));do
       for((l=1;l<k;l++));do
-        echo "r s t u = mem128[a]:>r=int32#$l:>s=int32#$k:>t=int32#$j:>u=int32#$i:<a=int32:asm/ldm <a, {>r,>s,>t,>u},<a:"
+        echo "r s t u = mem128[a]:>r=int32#$l:>s=int32#$k:>t=int32#$j:>u=int32#$i:<a=int32:asm/ldm <a, {>r,>s,>t,>u}:"
       done
     done
   done
