@@ -591,7 +591,7 @@ echo 'assign r10 r11 to r s = t:>r=int32#11:>s=int32#12:<t=stack64:#n:asm/ldrd >
 for((i=3;i<15;i++));do
   for((j=2;j<i;j++));do
     for((k=1;k<j;k++));do
-      echo "r s t = mem96[a]:>r=int32#$k:>s=int32#$j:>t=int32#$i:<a=int32:asm/ldm {>r,>s,>t},[<a]:"
+      echo "r s t = mem96[a]:>r=int32#$k:>s=int32#$j:>t=int32#$i:<a=int32:asm/ldm <a, {>r,>s,>t}:"
     done
   done
 done
@@ -599,7 +599,7 @@ done
 for((i=3;i<15;i++));do
   for((j=2;j<i;j++));do
     for((k=1;k<j;k++));do
-      echo "r s t = mem96[a];a+=12:>r=int32#$k:>s=int32#$j:>t=int32#$i:<a=int32:asm/ldm {>r,>s,>t},[<a]!:"
+      echo "r s t = mem96[a];a+=12:>r=int32#$k:>s=int32#$j:>t=int32#$i:<a=int32:asm/ldm <a!, {>r,>s,>t}:"
     done
   done
 done
@@ -608,7 +608,7 @@ for((i=4;i<15;i++));do
   for((j=3;j<i;j++));do
     for((k=2;k<j;k++));do
       for((l=1;l<k;l++));do
-        echo "r s t u = mem128[a]:>r=int32#$l:>s=int32#$k:>t=int32#$j:>u=int32#$i:<a=int32:asm/ldm {>r,>s,>t,>u},[<a]:"
+        echo "r s t u = mem128[a]:>r=int32#$l:>s=int32#$k:>t=int32#$j:>u=int32#$i:<a=int32:asm/ldm <a, {>r,>s,>t,>u},<a:"
       done
     done
   done
@@ -618,7 +618,7 @@ for((i=4;i<15;i++));do
   for((j=3;j<i;j++));do
     for((k=2;k<j;k++));do
       for((l=1;l<k;l++));do
-        echo "r s t u = mem128[a];a+=16:>r=int32#$l:>s=int32#$k:>t=int32#$j:>u=int32#$i:<a=int32:asm/ldm {>r,>s,>t,>u},[<a]!:"
+        echo "r s t u = mem128[a];a+=16:>r=int32#$l:>s=int32#$k:>t=int32#$j:>u=int32#$i:<a=int32:asm/ldm <a!, {>r,>s,>t,>u}:"
       done
     done
   done
