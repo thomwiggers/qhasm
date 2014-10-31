@@ -420,7 +420,7 @@ echo "XXX"
 for OP in '+,adds' '-,subs' '&,ands'; do
   QOP=`echo $OP | sed "s/,.*//"`
   AOP=`echo $OP | sed "s/.*,//"`
-  FLAGS=">?unsigned>:>?unsigned<:>?signed>:>?signed<:>?negative:>?overflow:>?carry:"
+  FLAGS=">?unsigned>:>?unsigned<:>?signed>:>?signed<:>?negative:>?overflow:>?carry:>?=:"
   echo "r $QOP= t:>r=int32:<r=int32:<t=int32:asm/$AOP >r,<r,<t:$FLAGS"
   echo "r $QOP= n:>r=int32:<r=int32:#n:asm/$AOP >r,<r,\$#n:$FLAGS"
   echo "r $QOP= (t >>> n):>r=int32:<r=int32:<t=int32:#n:asm/$AOP >r,<r,<t,ROR \$#n:$FLAGS"
