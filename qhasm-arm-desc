@@ -628,7 +628,7 @@ done
 for((i=3;i<15;i++));do
   for((j=2;j<i;j++));do
     for((k=1;k<j;k++));do
-      echo "mem96[a] = r s t:<r=int32#$k:<s=int32#$j:<t=int32#$i:<a=int32:asm/stm {<r,<s,<t},[<a]:"
+      echo "mem96[a] = r s t:<r=int32#$k:<s=int32#$j:<t=int32#$i:<a=int32:asm/stm <a,{<r,<s,<t}:"
     done
   done
 done
@@ -636,7 +636,7 @@ done
 for((i=3;i<15;i++));do
   for((j=2;j<i;j++));do
     for((k=1;k<j;k++));do
-      echo "mem96[a] = r s t;a+=12:<r=int32#$k:<s=int32#$j:<t=int32#$i:<a=int32:asm/stm {<r,<s,<t},[<a]!:"
+      echo "mem96[a] = r s t;a+=12:<r=int32#$k:<s=int32#$j:<t=int32#$i:<a=int32:asm/stm <a!,{<r,<s,<t}:"
     done
   done
 done
