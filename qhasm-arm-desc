@@ -600,6 +600,8 @@ for((i=3;i<15;i++));do
   done
 done
 
+echo "caller_r4 caller_r5 caller_r6 = mem96[a]:>r=int32#5,>s=int32#6,>t=int32#7:<a=int32:asm/ldm <a, {>r,>s,>t}:"
+
 for((i=3;i<15;i++));do
   for((j=2;j<i;j++));do
     for((k=1;k<j;k++));do
@@ -647,6 +649,8 @@ for((i=3;i<15;i++));do
     done
   done
 done
+
+echo "mem96[a] = caller_r4 caller_r5 caller_r6:<r=int32#5,<s=int32#6,<t=int32#7:<a=int32:asm/stm <a, {<r,<s,<t}:"
 
 for((i=3;i<15;i++));do
   for((j=2;j<i;j++));do
