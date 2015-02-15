@@ -592,6 +592,10 @@ echo 'assign r12 r13 to r s = mem64[t + u]:>r=int32#13:>s=int32#14:<t=int32:<u=i
 #echo 'assign r8 r9 to r s = t:>r=int32#9:>s=int32#10:<t=stack64:#n:asm/ldrd >r,<t:'
 #echo 'assign r10 r11 to r s = t:>r=int32#11:>s=int32#12:<t=stack64:#n:asm/ldrd >r,<t:'
 
+# Fix stackpointer
+echo 'storesp[t + u]:<r=int32#14:<t=int32:<u=int32:asm/str sp,[<t,<u]:'
+echo 'loadsp[t + u]:>r=int32#14:<t=int32:<u=int32:asm/ldr sp,[<t,<u]:'
+
 for((i=3;i<15;i++));do
   for((j=2;j<i;j++));do
     for((k=1;k<j;k++));do
