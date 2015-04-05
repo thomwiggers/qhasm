@@ -634,6 +634,9 @@ for((i=4;i<15;i++));do
   done
 done
 
+echo 'caller_r4 caller_r5 caller_r6 caller_r7 = mem128[a]; a += 16:>r=int32#5:>s=int32#6:>t=int32#7:>u=int32#8:<a=int32:asm/ldm <a!, {>r,>s,>t,>u}:'
+echo 'caller_r8 caller_r9 caller_r10 caller_r11 = mem128[a]; a += 16:>r=int32#9:>s=int32#10:>t=int32#11:>u=int32#12:<a=int32:asm/ldm <a!, {>r,>s,>t,>u}:'
+
 for((i=4;i<15;i++));do
   for((j=3;j<i;j++));do
     for((k=2;k<j;k++));do
