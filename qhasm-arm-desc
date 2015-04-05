@@ -671,7 +671,7 @@ for((i=4;i<15;i++));do
   for((j=3;j<i;j++));do
     for((k=2;k<j;k++));do
       for((l=1;l<k;l++));do
-        echo "mem128[a] = r s t u:<r=int32#$l:<s=int32#$k:<t=int32#$j:<u=int32#$i:<a=int32:asm/ldm {<r,<s,<t,<u},[<a]:"
+        echo "mem128[a] = r s t u:<r=int32#$l:<s=int32#$k:<t=int32#$j:<u=int32#$i:<a=int32:asm/stm <a, {<r,<s,<t,<u}:"
       done
     done
   done
@@ -681,7 +681,7 @@ for((i=4;i<15;i++));do
   for((j=3;j<i;j++));do
     for((k=2;k<j;k++));do
       for((l=1;l<k;l++));do
-        echo "mem128[a] = r s t u;a+=16:<r=int32#$l:<s=int32#$k:<t=int32#$j:<u=int32#$i:<a=int32:asm/ldm {<r,<s,<t,<u},[<a]!:"
+        echo "mem128[a] = r s t u;a+=16:<r=int32#$l:<s=int32#$k:<t=int32#$j:<u=int32#$i:<a=int32:asm/stm <a!, {<r,<s,<t,<u}:"
       done
     done
   done
