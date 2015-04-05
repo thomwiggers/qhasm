@@ -636,6 +636,8 @@ done
 
 echo 'caller_r4 caller_r5 caller_r6 caller_r7 = mem128[a]; a += 16:>caller_r4=int32#5:>caller_r5=int32#6:>caller_r6=int32#7:>caller_r7=int32#8:<a=int32:asm/ldm <a!, {r4, r5, r6, r7}:'
 echo 'caller_r8 caller_r9 caller_r10 caller_r11 = mem128[a]:>caller_r8=int32#9:>caller_r9=int32#10:>caller_r10=int32#11:>caller_r11=int32#12:<a=int32:asm/ldm <a, {r8, r9, r10, r11}:'
+echo 'caller_r4 caller_r5 caller_r6 caller_r7 caller_r8 caller_r9 caller_r10 caller_r11 = mem256[a]:>caller_r4=int32#5:>caller_r5=int32#6:>caller_r6=int32#7:>caller_r7=int32#8:>caller_r8=int32#9:>caller_r9=int32#10:>caller_r10=int32#11:>caller_r11=int32#12:<a=int32:asm/ldm <a, {r4, r5, r6, r7, r8, r9, r10, r11}:'
+echo 'caller_r4 caller_r5 caller_r6 caller_r7 caller_r8 caller_r9 caller_r10 caller_r11 caller_r14 = mem288[a]:>caller_r4=int32#5:>caller_r5=int32#6:>caller_r6=int32#7:>caller_r7=int32#8:>caller_r8=int32#9:>caller_r9=int32#10:>caller_r10=int32#11:>caller_r11=int32#12:>caller_r14=int32#15:<a=int32:asm/ldm <a, {r4, r5, r6, r7, r8, r9, r10, r11, r14}:'
 
 for((i=4;i<15;i++));do
   for((j=3;j<i;j++));do
@@ -689,6 +691,9 @@ for((i=4;i<15;i++));do
     done
   done
 done
+
+echo 'mem256[s] = a b c d e f g h:<a=int32:<b=int32:<c=int32:<d=int32:<e=int32:<f=int32:<g=int32:<h=int32:<s=int32:asm/stm <s, {<a,<b,<c,<d,<e,<f,<g,<h}:'
+echo 'mem288[s] = a b c d e f g h i:<a=int32:<b=int32:<c=int32:<d=int32:<e=int32:<f=int32:<g=int32:<h=int32:<i=int32:<s=int32:asm/stm <s, {<a,<b,<c,<d,<e,<f,<g,<h,<i}:'
 
 #echo 'r = s:>r=int32:<s=stack32:asm/ldr >r,<s:'
 #echo 's = r:<r=int32:>s=stack32:asm/str <r,>s:'
