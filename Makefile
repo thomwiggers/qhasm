@@ -1,3 +1,2 @@
-.PHONY: all
-all:
+str0-test5:
 	./do
